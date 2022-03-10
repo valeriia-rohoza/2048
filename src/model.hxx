@@ -7,7 +7,7 @@
 // The model tracks the logical state of the game, independent of the
 // presentation and control. In particular, it keeps track of:
 //
-//  - the game configuration (the sizes of things such as blocks, the screen)
+//  - TODO: prob not the game configuration (the sizes of things such as blocks, the screen)
 //  - a 2D array of int (int board[4][4];) to store the values of the blocks
 //  - current score
 //
@@ -25,16 +25,17 @@ public:
     ///
     // 4 by 4 board, all tiles but two are zeros
     // and two randomly-selected tiles have values of 2
+    // TODO: there are no customized things for a model so we don't specify anything
     explicit Model();
 
     // HERE ARE ALL FUNCTIONS; TODO: decide later which one should be private or public
     // Given a 2D array of blocks (which we access through the model)
-    // and passing Posn<int> coordinates, and Posn<int> for the direction
+    // and passing Posn<int> coordinates, and Dims<int> for the direction
     // check whether two adjacent nonzero blocks form a repeating pair
     // special case:
     // check whether the next nonzero block is still within the board before adding direction
     // TODO: return block_value_1 == block_value_2
-    bool check_repeating();
+    bool check_repeating(ge211::Posn<int> coordinates, ge211::Dims<int> direction);
 
     /* How blocks move?
      * Pressing the right arrow button.
@@ -65,17 +66,20 @@ public:
      * if true, curr = 0 and the next nonzero one doubles its value; update score by the value of a new tile
      * otherwise, do nothing
      * */
-    void move_blocks(ge211::geometry::Posn<int> displacement);
+    void move_blocks(ge211::geometry::Dims<int> direction);
 
     // update the score
     // the score starts at zero and is increased whenever two tiles combine by the value of the new tile
     // pass score by reference and the value of a new block
-    void update_score();
+    void update_score(int value);
+
+    // check whether the current position is on the board
+    bool on_board(ge211::Posn<int> posn);
+    ge211::Posn<int> next_nonzero(ge211::Posn<int> curr, ge211::Dims<int> direction);
 
     ///
     /// Public member functions
     ///
-
 
 private:
     ///
@@ -85,4 +89,8 @@ private:
     ///
     /// Private member variables
     ///
+    // 2D array of blocks
+    int blocks_[BOARD_SIZE][BOARD_SIZE];
+    int score_;
+    ge211::Random_source<int> random_source_;
 };

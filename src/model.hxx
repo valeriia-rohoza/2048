@@ -35,8 +35,13 @@ public:
     // special case:
     // check whether the next nonzero block is still within the board before adding direction
     // TODO: return block_value_1 == block_value_2
-    bool check_repeating(ge211::Posn<int> coordinates, ge211::Dims<int> direction);
 
+    // update the score
+    // the score starts at zero and is increased whenever two tiles combine by the value of the new tile
+    // pass score by reference and the value of a new block
+    void update_score(int value);
+
+    bool check_repeating(ge211::Posn<int> coordinates, ge211::Dims<int> direction);
     /* How blocks move?
      * Pressing the right arrow button.
      * The right-most non-zero block will move by 1 if it's allowed (the block should remain on the board).
@@ -58,6 +63,13 @@ public:
      * - (-1,0) up
      * - (0,1) right
      * - (0,-1) left
+     *
+     * takes side coordinate & increment, which can be either
+     * - (3, -1) right
+     * - (0, 1) left
+     * - (0, 1) up
+     * - (3, -1) down
+     *
      * Loop over all blocks (two for loops for rows/columns)
      * check while it's within a board
      * For each block, call check_repeating
@@ -66,15 +78,13 @@ public:
      * if true, curr = 0 and the next nonzero one doubles its value; update score by the value of a new tile
      * otherwise, do nothing
      * */
-    void move_blocks(ge211::geometry::Dims<int> direction);
-
-    // update the score
-    // the score starts at zero and is increased whenever two tiles combine by the value of the new tile
-    // pass score by reference and the value of a new block
-    void update_score(int value);
+    void move_blocks(ge211::geometry::Dims<int> direction, int side, int incrementer);
 
     // check whether the current position is on the board
+    // i and j are greater or equal 0
+    // AND i,j less than BOARD_SIZE
     bool on_board(ge211::Posn<int> posn);
+    bool on_board_single(int coord);
     ge211::Posn<int> next_nonzero(ge211::Posn<int> curr, ge211::Dims<int> direction);
 
     ///

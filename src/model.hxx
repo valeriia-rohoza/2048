@@ -4,12 +4,15 @@
 // size of the board BOARD_SIZE by BOARD_SIZE
 #define BOARD_SIZE (4)
 
+using namespace ge211::time;
 // The model tracks the logical state of the game, independent of the
 // presentation and control. In particular, it keeps track of:
 //
 //  - TODO: prob not the game configuration (the sizes of things such as blocks, the screen)
 //  - a 2D array of int (int board[4][4];) to store the values of the blocks
 //  - current score
+//  - game status (is it over or not)
+//  - game results (whether won or not)
 //
 // It also provides member functions to help the UI in updating it
 
@@ -42,6 +45,25 @@ public:
     void update_score(int value);
 
     bool check_repeating(ge211::Posn<int> coordinates, ge211::Dims<int> direction);
+
+    // create one tile with 2 in place of the empty tile
+    // TODO: what to do if there are no empty tiles after swipe; do I need to add an extra specification?
+    // it means that the board was full before the swipe, and no reduction happened
+    // then the game is over
+    // while random tile is nonzero, keep choosing random tiles
+    // once found a zero tile, set it to 2
+    void create_random_two();
+
+    // TODO: check whether the game is over before adding random two
+    // check whether the game is over
+    // loop over all tiles and if there's a zero tile, return false
+    // otherwise, return true
+    bool full_board();
+
+    // check whether the largest tile has a value of 2048 (or larger because it's implied)
+    // since check each time, it's ok to == 2048, but nothing bad happens if >= 2048
+    bool is_2048_reached();
+
     /* How blocks move?
      * Pressing the right arrow button.
      * The right-most non-zero block will move by 1 if it's allowed (the block should remain on the board).
@@ -86,6 +108,9 @@ public:
     bool on_board(ge211::Posn<int> posn);
     bool on_board_single(int coord);
     ge211::Posn<int> next_nonzero(ge211::Posn<int> curr, ge211::Dims<int> direction);
+    bool game_over() const;
+    bool player_won() const;
+    double game_duration();
 
     ///
     /// Public member functions
@@ -103,4 +128,7 @@ private:
     int blocks_[BOARD_SIZE][BOARD_SIZE];
     int score_;
     ge211::Random_source<int> random_source_;
+    bool game_over_;
+    bool player_won_;
+    ge211::Timer timer_;
 };

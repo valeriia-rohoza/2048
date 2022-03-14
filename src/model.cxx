@@ -4,7 +4,10 @@
 Model::Model()
         : blocks_{0},
             score_(0),
-            random_source_(BOARD_SIZE)
+            random_source_(BOARD_SIZE),
+            game_over_(false),
+            player_won_(false),
+            timer_()
 {
     int tile1_x = random_source_.next();
     int tile1_y = random_source_.next();
@@ -78,6 +81,46 @@ void Model::update_score(int value) {
     score_ += value;
 }
 
+// while random tile is nonzero, keep choosing a random tile
+// check that the board is not full, otherwise, do nothing
+void Model::create_random_two() {
+    if (!full_board()){
+        int i = random_source_.next();
+        int j = random_source_.next();
+
+        while (blocks_[i][j] != 0) {
+            i = random_source_.next();
+            j = random_source_.next();
+        }
+
+        blocks_[i][j] = 2;
+    }
+}
+
+// loop over all tiles and if there's a zero tile, return true
+bool Model::full_board() {
+    // TODO: how to loop over 2D array without using indices
+    for (int i=0; i<BOARD_SIZE; i++){
+        for (int j=0; j<BOARD_SIZE; j++){
+            if (blocks_[i][j] == 0){
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+bool Model::is_2048_reached() {
+    for (int i=0; i<BOARD_SIZE; i++){
+        for (int j=0; j<BOARD_SIZE; j++){
+            if (blocks_[i][j] >= 2048){
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
 void Model::move_blocks(ge211::geometry::Dims<int> direction, int side, int incrementer) {
     // loop over all blocks
     // TODO: fix the iteration so that we start from the corresponding side and move one by one in the different dir
@@ -110,7 +153,34 @@ void Model::move_blocks(ge211::geometry::Dims<int> direction, int side, int incr
                 // update the score
                 update_score(blocks_[adjacent.x][adjacent.y]);
             }
-            // otherwise, do nothing
+
+            // check whether 2048 is reached
+            player_won_ = is_2048_reached();
+
+            // check whether the board is full
+            // if it's full, the game is over
+            if (full_board()){
+                game_over_ = true;
+            } else {
+                // if the game is not over, create a random 2 tile
+                create_random_two();
+            }
         }
     }
+}
+
+//TODO: why do I need to put const here
+bool Model::game_over() const {
+    return game_over_;
+}
+
+bool Model::player_won() const {
+    return player_won_;
+}
+
+// TODO: how to set the duration
+// https://tov.github.io/ge211/classge211_1_1time_1_1_timer.html
+// TODO: what does it mean to have a result of the class
+double Model::game_duration() {
+    return timer_;
 }

@@ -31,8 +31,6 @@ View::View(Model const& model)
         *
 */
 
-// TODO: reversi view file, how to override the function initial window dimensions
-// set some dimensions for the board
 
 void
 View::draw(ge211::Sprite_set& set)

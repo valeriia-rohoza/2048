@@ -4,7 +4,7 @@
 // size of the board BOARD_SIZE by BOARD_SIZE
 #define BOARD_SIZE (4)
 
-using namespace ge211::time;
+// using namespace ge211::time;
 // The model tracks the logical state of the game, independent of the
 // presentation and control. In particular, it keeps track of:
 //
@@ -111,6 +111,7 @@ public:
     bool game_over() const;
     bool player_won() const;
     double game_duration();
+    int tile_value(int i, int j) const;
 
     ///
     /// Public member functions

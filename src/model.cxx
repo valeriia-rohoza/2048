@@ -1,9 +1,7 @@
 #include "model.hxx"
 
-// TODO: check whether I initialize the blocks correctly
 Model::Model()
-        : blocks_{0},
-            score_(0),
+        :   score_(0),
             random_source_(BOARD_SIZE),
             game_over_(false),
             player_won_(false),
@@ -12,22 +10,20 @@ Model::Model()
     int tile1_x = random_source_.next();
     int tile1_y = random_source_.next();
 
+    // loop over all blocks and set them to 0
+    for (int i=0; i<BOARD_SIZE; i++){
+        for (int j=0; j<BOARD_SIZE; j++){
+            blocks_[i][j] = 0;
+        }
+    }
     blocks_[tile1_x][tile1_y] = 2;
-
-    int tile2_x = random_source_.next();
-    int tile2_y = random_source_.next();
+    int tile2_x = tile1_x;
+    int tile2_y = tile1_y;
     while (tile1_x == tile2_x && tile2_x == tile2_y){
         tile2_x = random_source_.next();
         tile2_y = random_source_.next();
     }
-//    // add two tiles with 2 at random places
-//    for (int k=0; k<2; k++){
-//        blocks_[random_source_.next()][random_source_.next()] = 2;
-//    }
-
-    // ge211::geometry::Posn<int> first_tile = {random_source_.next(), random_source_.next()};
-    // blocks_[first_tile.x][first_tile.y] = 2;
-    // TODO: make sure that the second random tile does not overlap with the first one
+    blocks_[tile2_x][tile2_y] = 2;
 }
 
 // returns true if the position is within the board
@@ -169,7 +165,7 @@ void Model::move_blocks(ge211::geometry::Dims<int> direction, int side, int incr
     }
 }
 
-//TODO: why do I need to put const here
+// why do I need to put const here, not to change the variable
 bool Model::game_over() const {
     return game_over_;
 }
@@ -178,9 +174,11 @@ bool Model::player_won() const {
     return player_won_;
 }
 
-// TODO: how to set the duration
-// https://tov.github.io/ge211/classge211_1_1time_1_1_timer.html
-// TODO: what does it mean to have a result of the class
 double Model::game_duration() {
-    return timer_;
+    return timer_.elapsed_time().seconds();
+}
+
+// get the value at two indices
+int Model::tile_value(int i, int j) const {
+    return blocks_[i][j];
 }

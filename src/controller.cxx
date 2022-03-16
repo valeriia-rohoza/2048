@@ -17,6 +17,7 @@ void Controller::on_key(ge211::Key key) {
     else if (key == ge211::Key::up()){
         // if up is pressed
         model_.move_blocks({-1, 0}, 0, 1);
+
     } else if (key == ge211::Key::down()){
         // if down is pressed
         model_.move_blocks({1,0}, 3, -1);

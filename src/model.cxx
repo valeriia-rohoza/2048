@@ -17,9 +17,16 @@ Model::Model()
         }
     }
     blocks_[tile1_x][tile1_y] = 2;
+
+//    for (int i=0; i<BOARD_SIZE; i++) {
+//        for (int j = 0; j < BOARD_SIZE; j++) {
+//            std::cout << blocks_[i][j] << " ";
+//        }
+//        std::cout << "\n";
+//    }
     int tile2_x = tile1_x;
     int tile2_y = tile1_y;
-    while (tile1_x == tile2_x && tile2_x == tile2_y){
+    while (tile1_x == tile2_x && tile1_y == tile2_y){
         tile2_x = random_source_.next();
         tile2_y = random_source_.next();
     }
@@ -93,17 +100,16 @@ void Model::create_random_two() {
     }
 }
 
-// loop over all tiles and if there's a zero tile, return true
+// loop over all tiles and if there's a zero tile, return false
 bool Model::full_board() {
-    // TODO: how to loop over 2D array without using indices
     for (int i=0; i<BOARD_SIZE; i++){
         for (int j=0; j<BOARD_SIZE; j++){
             if (blocks_[i][j] == 0){
-                return true;
+                return false;
             }
         }
     }
-    return false;
+    return true;
 }
 
 bool Model::is_2048_reached() {
@@ -149,19 +155,19 @@ void Model::move_blocks(ge211::geometry::Dims<int> direction, int side, int incr
                 // update the score
                 update_score(blocks_[adjacent.x][adjacent.y]);
             }
-
-            // check whether 2048 is reached
-            player_won_ = is_2048_reached();
-
-            // check whether the board is full
-            // if it's full, the game is over
-            if (full_board()){
-                game_over_ = true;
-            } else {
-                // if the game is not over, create a random 2 tile
-                create_random_two();
-            }
         }
+    }
+
+    // check whether 2048 is reached
+    player_won_ = is_2048_reached();
+
+    // check whether the board is full
+    // if it's full, the game is over
+    if (full_board()){
+        game_over_ = true;
+    } else {
+        // if the game is not over, create a random 2 tile
+        create_random_two();
     }
 }
 
@@ -178,7 +184,34 @@ double Model::game_duration() {
     return timer_.elapsed_time().seconds();
 }
 
+// get_tile_value
 // get the value at two indices
-int Model::tile_value(int i, int j) const {
+int Model::get_tile_value(int i, int j) const {
     return blocks_[i][j];
+}
+
+// TODO: use the setter to set values of tiles, all fields
+// set the value at two indices
+void Model::set_tile_value(int i, int j, int value) {
+    blocks_[i][j] = value;
+}
+
+void Model::set_game_over(bool status) {
+    game_over_ = status;
+}
+
+void Model::set_player_won(bool status) {
+    player_won_ = status;
+}
+
+std::ostream&
+operator<<(std::ostream& o, Model const& model)
+{
+    o << "Board {";
+    for (int i=0; i<BOARD_SIZE; i++){
+        for (int j=0; j<BOARD_SIZE; j++){
+            o << model.get_tile_value(i,j) << " ";
+        }
+    }
+    return o << "}\n";
 }

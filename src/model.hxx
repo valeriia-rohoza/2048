@@ -1,6 +1,7 @@
 #pragma once
 
 #include <ge211.hxx>
+#include <iostream>
 // size of the board BOARD_SIZE by BOARD_SIZE
 #define BOARD_SIZE (4)
 
@@ -111,8 +112,10 @@ public:
     bool game_over() const;
     bool player_won() const;
     double game_duration();
-    int tile_value(int i, int j) const;
-
+    int get_tile_value(int i, int j) const;
+    void set_tile_value(int i, int j, int value);
+    void set_game_over(bool status);
+    void set_player_won(bool status);
     ///
     /// Public member functions
     ///
@@ -133,3 +136,6 @@ private:
     bool player_won_;
     ge211::Timer timer_;
 };
+
+std::ostream&
+operator<<(std::ostream&, Model const&);

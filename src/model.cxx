@@ -204,7 +204,7 @@ void Model::set_player_won(bool status) {
     player_won_ = status;
 }
 
-//TODO: cleaner way to reset it
+// TODO: cleaner way to reset it
 void Model::reset() {
     score_ = 0;
     game_over_ = false;
@@ -231,14 +231,6 @@ void Model::reset() {
     blocks_[tile2_x][tile2_y] = 2;
 }
 
-std::ostream&
-operator<<(std::ostream& o, Model const& model)
-{
-    o << "Board {";
-    for (int i=0; i<BOARD_SIZE; i++){
-        for (int j=0; j<BOARD_SIZE; j++){
-            o << model.get_tile_value(i,j) << " ";
-        }
-    }
-    return o << "}\n";
+int Model::get_score() const {
+    return score_;
 }

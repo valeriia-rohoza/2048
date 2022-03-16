@@ -8,7 +8,7 @@
 #define SCREEN_HEIGHT (640)
 #define TOP_MARGIN (100)
 #define SIDE_MARGIN (100)
-#define SCALE (80)
+#define SCALE (100)
 #define TIMER_MARGIN (10)
 #define RESTART_SIDE (50)
 #define RESTART_MARGIN (50)
@@ -44,6 +44,8 @@ private:
     ge211::Text_sprite loser_message_;
     ge211::Text_sprite time_message_;
     ge211::Rectangle_sprite restart_button_;
+    ge211::Text_sprite restart_message_;
+    ge211::Text_sprite score_message_;
     // dimensions of the tile in pixels
     ge211::Dims<int> tile_dimensions_() const;
     // position for a given i, j

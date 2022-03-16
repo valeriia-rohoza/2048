@@ -9,7 +9,6 @@
 // The model tracks the logical state of the game, independent of the
 // presentation and control. In particular, it keeps track of:
 //
-//  - TODO: prob not the game configuration (the sizes of things such as blocks, the screen)
 //  - a 2D array of int (int board[4][4];) to store the values of the blocks
 //  - current score
 //  - game status (is it over or not)
@@ -117,6 +116,7 @@ public:
     void set_game_over(bool status);
     void set_player_won(bool status);
     void reset();
+    int get_score() const;
     ///
     /// Public member functions
     ///
@@ -137,6 +137,3 @@ private:
     bool player_won_;
     ge211::Timer timer_;
 };
-
-std::ostream&
-operator<<(std::ostream&, Model const&);

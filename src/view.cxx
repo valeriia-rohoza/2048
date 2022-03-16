@@ -8,7 +8,9 @@ View::View(Model const& model)
         winner_message_("Yay!", {"sans.ttf", 30}),
         loser_message_("Big oops", {"sans.ttf", 30}),
         time_message_("0", {"sans.ttf", 20}),
-        restart_button_({RESTART_SIDE, RESTART_SIDE}, color_restart)
+        restart_button_({RESTART_SIDE, RESTART_SIDE}, color_restart),
+        restart_message_("Restart", {"sans.ttf", 15}),
+        score_message_("0", {"sans.ttf", 20})
 {
     reset_tiles_();
 }
@@ -51,7 +53,12 @@ View::draw(ge211::Sprite_set& set)
         set.add_sprite(time_message_, time_posn, 20);
 
         ge211::Posn<int> restart_posn = {SCREEN_WIDTH-RESTART_MARGIN-RESTART_SIDE, RESTART_MARGIN};
-        set.add_sprite(restart_button_, restart_posn);
+        set.add_sprite(restart_button_, restart_posn, 1);
+        set.add_sprite(restart_message_, restart_posn, 10);
+
+        score_message_ = ge211::Text_sprite(std::to_string(model_.get_score()), {"sans.ttf", 20});
+        ge211::Posn<int> score_posn = {SCREEN_WIDTH/3, TIMER_MARGIN};
+        set.add_sprite(score_message_, score_posn, 30);
     }
 }
 

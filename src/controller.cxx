@@ -29,3 +29,20 @@ void Controller::on_key(ge211::Key key) {
         model_.move_blocks({0,1}, 3, -1);
     }
 }
+
+ge211::Dims<int> Controller::initial_window_dimensions() const {
+    ge211::Dims<int> screen_size = {SCREEN_WIDTH, SCREEN_HEIGHT};
+
+    return screen_size;
+}
+
+void Controller::on_mouse_down(ge211::Mouse_button button, ge211::Posn<int> posn) {
+    if (on_restart(posn)){
+        
+    }
+}
+
+bool Controller::on_restart(ge211::Posn<int> posn) {
+    return (posn.x > (SCREEN_WIDTH - RESTART_MARGIN - RESTART_SIDE) && posn.x < (SCREEN_WIDTH - RESTART_MARGIN) &&
+            posn.y > (SCREEN_HEIGHT - RESTART_MARGIN - RESTART_SIDE) && posn.y < (SCREEN_HEIGHT - RESTART_MARGIN));
+}

@@ -111,7 +111,7 @@ public:
     ge211::Posn<int> next_nonzero(ge211::Posn<int> curr, ge211::Dims<int> direction);
     bool game_over() const;
     bool player_won() const;
-    double game_duration();
+    double game_duration() const;
     int get_tile_value(int i, int j) const;
     void set_tile_value(int i, int j, int value);
     void set_game_over(bool status);

@@ -9,6 +9,9 @@
 #define TOP_MARGIN (100)
 #define SIDE_MARGIN (100)
 #define SCALE (80)
+#define TIMER_MARGIN (10)
+#define RESTART_SIDE (10)
+#define RESTART_MARGIN (10)
 
 class View
 {
@@ -39,6 +42,7 @@ private:
     std::vector<std::vector<ge211::Text_sprite>> values_sprite_;
     ge211::Text_sprite winner_message_;
     ge211::Text_sprite loser_message_;
+    ge211::Text_sprite time_message_;
     // dimensions of the tile in pixels
     ge211::Dims<int> tile_dimensions_() const;
     // position for a given i, j

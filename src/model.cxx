@@ -180,7 +180,7 @@ bool Model::player_won() const {
     return player_won_;
 }
 
-double Model::game_duration() {
+double Model::game_duration() const {
     return timer_.elapsed_time().seconds();
 }
 

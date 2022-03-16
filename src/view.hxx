@@ -3,7 +3,6 @@
 #include "model.hxx"
 
 // set the screen dimensions and margins
-// TODO: make sure that the window opens with these parameters
 #define SCREEN_WIDTH (640)
 #define SCREEN_HEIGHT (640)
 #define TOP_MARGIN (100)

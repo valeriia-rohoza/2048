@@ -28,16 +28,14 @@ public:
     ///
     // 4 by 4 board, all tiles but two are zeros
     // and two randomly-selected tiles have values of 2
-    // TODO: there are no customized things for a model so we don't specify anything
     explicit Model();
 
-    // HERE ARE ALL FUNCTIONS; TODO: decide later which one should be private or public
+    // HERE ARE ALL FUNCTIONS;
     // Given a 2D array of blocks (which we access through the model)
     // and passing Posn<int> coordinates, and Dims<int> for the direction
     // check whether two adjacent nonzero blocks form a repeating pair
     // special case:
     // check whether the next nonzero block is still within the board before adding direction
-    // TODO: return block_value_1 == block_value_2
 
     // update the score
     // the score starts at zero and is increased whenever two tiles combine by the value of the new tile
@@ -47,14 +45,12 @@ public:
     bool check_repeating(ge211::Posn<int> coordinates, ge211::Dims<int> direction);
 
     // create one tile with 2 in place of the empty tile
-    // TODO: what to do if there are no empty tiles after swipe; do I need to add an extra specification?
     // it means that the board was full before the swipe, and no reduction happened
     // then the game is over
     // while random tile is nonzero, keep choosing random tiles
     // once found a zero tile, set it to 2
     void create_random_two();
 
-    // TODO: check whether the game is over before adding random two
     // check whether the game is over
     // loop over all tiles and if there's a zero tile, return false
     // otherwise, return true

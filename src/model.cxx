@@ -125,7 +125,7 @@ bool Model::is_2048_reached() {
 
 void Model::move_blocks(ge211::geometry::Dims<int> direction, int side, int incrementer) {
     // loop over all blocks
-    // TODO: fix the iteration so that we start from the corresponding side and move one by one in the different dir
+    // fixed the iteration so that we start from the corresponding side and move one by one in the different dir
     for (int i=side; on_board_single(i); i += incrementer){
         for (int j=side; on_board_single(j); j += incrementer){
             // if it doesn't have a repeating pair
@@ -190,7 +190,6 @@ int Model::get_tile_value(int i, int j) const {
     return blocks_[i][j];
 }
 
-// TODO: use the setter to set values of tiles, all fields
 // set the value at two indices
 void Model::set_tile_value(int i, int j, int value) {
     blocks_[i][j] = value;
@@ -204,7 +203,6 @@ void Model::set_player_won(bool status) {
     player_won_ = status;
 }
 
-// TODO: cleaner way to reset it
 void Model::reset() {
     score_ = 0;
     game_over_ = false;

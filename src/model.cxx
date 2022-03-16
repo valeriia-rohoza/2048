@@ -204,6 +204,33 @@ void Model::set_player_won(bool status) {
     player_won_ = status;
 }
 
+//TODO: cleaner way to reset it
+void Model::reset() {
+    score_ = 0;
+    game_over_ = false;
+    player_won_ = false;
+    timer_.reset();
+
+    int tile1_x = random_source_.next();
+    int tile1_y = random_source_.next();
+
+    // loop over all blocks and set them to 0
+    for (int i=0; i<BOARD_SIZE; i++){
+        for (int j=0; j<BOARD_SIZE; j++){
+            blocks_[i][j] = 0;
+        }
+    }
+    blocks_[tile1_x][tile1_y] = 2;
+
+    int tile2_x = tile1_x;
+    int tile2_y = tile1_y;
+    while (tile1_x == tile2_x && tile1_y == tile2_y){
+        tile2_x = random_source_.next();
+        tile2_y = random_source_.next();
+    }
+    blocks_[tile2_x][tile2_y] = 2;
+}
+
 std::ostream&
 operator<<(std::ostream& o, Model const& model)
 {

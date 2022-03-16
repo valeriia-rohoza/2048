@@ -116,6 +116,7 @@ public:
     void set_tile_value(int i, int j, int value);
     void set_game_over(bool status);
     void set_player_won(bool status);
+    void reset();
     ///
     /// Public member functions
     ///

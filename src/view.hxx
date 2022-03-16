@@ -10,8 +10,8 @@
 #define SIDE_MARGIN (100)
 #define SCALE (80)
 #define TIMER_MARGIN (10)
-#define RESTART_SIDE (10)
-#define RESTART_MARGIN (10)
+#define RESTART_SIDE (50)
+#define RESTART_MARGIN (50)
 
 class View
 {
@@ -43,6 +43,7 @@ private:
     ge211::Text_sprite winner_message_;
     ge211::Text_sprite loser_message_;
     ge211::Text_sprite time_message_;
+    ge211::Rectangle_sprite restart_button_;
     // dimensions of the tile in pixels
     ge211::Dims<int> tile_dimensions_() const;
     // position for a given i, j

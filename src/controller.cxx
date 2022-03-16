@@ -38,7 +38,7 @@ ge211::Dims<int> Controller::initial_window_dimensions() const {
 
 void Controller::on_mouse_down(ge211::Mouse_button button, ge211::Posn<int> posn) {
     if (on_restart(posn)){
-        
+        model_.reset();
     }
 }
 

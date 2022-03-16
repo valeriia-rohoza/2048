@@ -1,12 +1,14 @@
 #include "view.hxx"
 
 static ge211::Color const color_tiles {0, 160, 255};
+static ge211::Color const color_restart {0, 100, 255};
 
 View::View(Model const& model)
         : model_(model),
         winner_message_("Yay!", {"sans.ttf", 30}),
         loser_message_("Big oops", {"sans.ttf", 30}),
-        time_message_("0", {"sans.ttf", 20})
+        time_message_("0", {"sans.ttf", 20}),
+        restart_button_({RESTART_SIDE, RESTART_SIDE}, color_restart)
 {
     reset_tiles_();
 }
@@ -47,6 +49,9 @@ View::draw(ge211::Sprite_set& set)
         time_message_ = ge211::Text_sprite(std::to_string(model_.game_duration()), {"sans.ttf", 20});
         ge211::Posn<int> time_posn = {TIMER_MARGIN, TIMER_MARGIN};
         set.add_sprite(time_message_, time_posn, 20);
+
+        ge211::Posn<int> restart_posn = {SCREEN_WIDTH-RESTART_MARGIN-RESTART_SIDE, RESTART_MARGIN};
+        set.add_sprite(restart_button_, restart_posn);
     }
 }
 

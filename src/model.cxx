@@ -136,7 +136,7 @@ void Model::move_blocks(ge211::geometry::Dims<int> direction, int side, int incr
             ge211::Posn<int> current = {i,j};
             ge211::Posn<int> next = current + direction;
 
-            if (!check_repeating(current, direction) && on_board(next)){
+            if (!check_repeating(current, direction) && on_board(next) && blocks_[current.x][current.y]!=0){
                 if (blocks_[next.x][next.y] == 0){
                     blocks_[next.x][next.y] = blocks_[current.x][current.y];
                     blocks_[current.x][current.y] = 0;

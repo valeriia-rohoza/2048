@@ -1,7 +1,8 @@
 #include "view.hxx"
 
-static ge211::Color const color_tiles {0, 160, 255};
-static ge211::Color const color_restart {0, 100, 255};
+static ge211::Color const color_tiles {240,228,66};
+static ge211::Color const color_inner_tiles {	0,114,178};
+static ge211::Color const color_restart {0,158,115};
 
 View::View(Model const& model)
         : model_(model),
@@ -21,7 +22,6 @@ View::View(Model const& model)
         * - score number
         * - time of the game
 */
-
 
 void
 View::draw(ge211::Sprite_set& set)
@@ -43,7 +43,8 @@ View::draw(ge211::Sprite_set& set)
         for (int i=0; i<BOARD_SIZE; i++){
             for (int j=0; j<BOARD_SIZE; j++){
                 set.add_sprite(tiles_sprite_[i][j], tile_position_(i, j), 1);
-                set.add_sprite(values_sprite_[i][j], tile_position_(i, j), 10);
+                set.add_sprite(inner_tiles_sprite_[i][j], inner_tile_position_(i, j), 5);
+                set.add_sprite(values_sprite_[i][j], inner_tile_position_(i,j), 10);
                 // add numbers
             }
         }
@@ -74,18 +75,30 @@ ge211::Dims<int> View::tile_dimensions_() const {
     return {(screen_size.width - 2*margin_size)/board_size,(screen_size.height - 2*margin_size)/board_size};
 }
 
+ge211::Dims<int> View::inner_tile_dimensions_() const {
+    return {tile_dimensions_().width * (100 - 2*TILE_SCALE)/100, tile_dimensions_().height * (100 - 2*TILE_SCALE)/100};
+}
+
+
 // position of the tile in pixels for a given position in i,j
 const ge211::Posn<int> View::tile_position_(int i, int j) {
     ge211::Dims<int> tile = tile_dimensions_();
     return {SIDE_MARGIN + tile.width * j, TOP_MARGIN + tile.height * i};
 }
 
+const ge211::Posn<int> View::inner_tile_position_(int i, int j) {
+    ge211::Dims<int> tile = tile_dimensions_();
+    return {SIDE_MARGIN + tile.width * j + TILE_SCALE*tile.width/100, TOP_MARGIN + tile.height * i + TILE_SCALE*tile.height/100};
+}
+
 void View::clear_sprites_() {
     for (int i=0; i<BOARD_SIZE; i++){
         tiles_sprite_[i].clear();
+        inner_tiles_sprite_[i].clear();
         values_sprite_[i].clear();
     }
     tiles_sprite_.clear();
+    inner_tiles_sprite_.clear();
     values_sprite_.clear();
 }
 
@@ -99,11 +112,19 @@ void View::reset_tiles_() {
     }
 
     for (int i=0; i<BOARD_SIZE; i++){
+        std::vector<ge211::Rectangle_sprite> inner_temp_row;
+        for (int j=0; j<BOARD_SIZE; j++){
+            inner_temp_row.push_back(ge211::Rectangle_sprite(inner_tile_dimensions_(), color_inner_tiles));
+        }
+        inner_tiles_sprite_.push_back(inner_temp_row);
+    }
+
+    for (int i=0; i<BOARD_SIZE; i++){
         std::vector<ge211::Text_sprite> temp_row_text;
         for (int j=0; j<BOARD_SIZE; j++){
             int temp_tile_value = model_.get_tile_value(i,j);
             if (temp_tile_value == 0){
-                temp_row_text.push_back(ge211::Text_sprite(" ", {"sans.ttf", 30}));
+                temp_row_text.push_back(ge211::Text_sprite(" ", {"sans.ttf", 64}));
             } else {
                 temp_row_text.push_back(ge211::Text_sprite(std::to_string(temp_tile_value), {"sans.ttf", 30}));
             }

@@ -44,5 +44,5 @@ void Controller::on_mouse_up(ge211::Mouse_button left, ge211::Posn<int> posn) {
 
 bool Controller::on_restart(ge211::Posn<int> posn) {
     return (posn.x > (SCREEN_WIDTH - RESTART_MARGIN - RESTART_SIDE) && posn.x < (SCREEN_WIDTH - RESTART_MARGIN) &&
-            posn.y > RESTART_MARGIN && posn.y < (RESTART_MARGIN + RESTART_SIDE));
+            posn.y > RESTART_MARGIN_SIDE && posn.y < (RESTART_MARGIN_SIDE + RESTART_SIDE));
 }

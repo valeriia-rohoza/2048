@@ -1,8 +1,9 @@
 #include "view.hxx"
 
-static ge211::Color const color_tiles {240,228,66};
-static ge211::Color const color_inner_tiles {	0,114,178};
-static ge211::Color const color_restart {0,158,115};
+static ge211::Color const color_tiles {49,76,182};
+static ge211::Color const color_inner_tiles {100,97,160};
+static ge211::Color const color_restart {182,140,184};
+static ge211::Color const color_background{239,189,235};
 
 View::View(Model const& model)
         : model_(model),
@@ -30,14 +31,14 @@ View::draw(ge211::Sprite_set& set)
     clear_sprites_();
     reset_tiles_();
 
-    ge211::Posn<int> message_posn = {SCREEN_WIDTH/3, SCREEN_HEIGHT/2};
+    ge211::Posn<int> message_posn = {SCREEN_WIDTH/2, SCREEN_HEIGHT/2};
     // if the game is over, then show (You won!) or (Big oops!) depending on the winner
     if (model_.game_over() && model_.player_won()){
         // show yay!
-        set.add_sprite(winner_message_, message_posn, 10);
+        set.add_sprite(winner_message_, {message_posn.x - winner_message_.dimensions().width/2, message_posn.y - winner_message_.dimensions().height/2}, 10);
     } else if (model_.game_over() && !model_.player_won()){
         // show big oops!
-        set.add_sprite(loser_message_, message_posn, 10);
+        set.add_sprite(loser_message_, {message_posn.x - loser_message_.dimensions().width/2, message_posn.y - loser_message_.dimensions().height/2}, 10);
     } else {
         // add 16 white tiles
         for (int i=0; i<BOARD_SIZE; i++){
@@ -53,9 +54,9 @@ View::draw(ge211::Sprite_set& set)
         ge211::Posn<int> time_posn = {TIMER_MARGIN, TIMER_MARGIN};
         set.add_sprite(time_message_, time_posn, 20);
 
-        ge211::Posn<int> restart_posn = {SCREEN_WIDTH-RESTART_MARGIN-RESTART_SIDE, RESTART_MARGIN};
+        ge211::Posn<int> restart_posn = {SCREEN_WIDTH-RESTART_MARGIN-RESTART_SIDE, RESTART_MARGIN_SIDE};
         set.add_sprite(restart_button_, restart_posn, 1);
-        set.add_sprite(restart_message_, restart_posn, 10);
+        set.add_sprite(restart_message_, {restart_posn.x + (RESTART_SIDE - restart_message_.dimensions().width)/2, restart_posn.y + RESTART_SIDE/2 - restart_message_.dimensions().height/2}, 10);
 
         score_message_ = ge211::Text_sprite(std::to_string(model_.get_score()), {"sans.ttf", 20});
         ge211::Posn<int> score_posn = {SCREEN_WIDTH/3, TIMER_MARGIN};

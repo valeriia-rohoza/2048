@@ -9,8 +9,9 @@
 #define SIDE_MARGIN (100)
 #define SCALE (100)
 #define TIMER_MARGIN (10)
-#define RESTART_SIDE (50)
-#define RESTART_MARGIN (50)
+#define RESTART_SIDE (60)
+#define RESTART_MARGIN (10)
+#define RESTART_MARGIN_SIDE (300)
 #define TILE_SCALE (10)
 #define RATIO_PT_PX (75)
 
